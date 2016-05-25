@@ -7,7 +7,7 @@ class CreateDayData < ActiveRecord::Migration
       t.string :food_eaten
       t.integer :productivity
       t.string :note
-
+      t.datetime :test_time
       t.timestamps null: false
     end
   end
