@@ -10,4 +10,8 @@ class UserController < ApplicationController
   def graphform
 
   end
+
+  def createDayDatum
+
+  end
 end
