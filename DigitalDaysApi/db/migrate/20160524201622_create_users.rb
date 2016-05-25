@@ -4,8 +4,12 @@ class CreateUsers < ActiveRecord::Migration
       t.string :name
       t.string :email, null: false
       t.string :password_digest, null: false
-      t.string :preferences
-
+      t.integer :weather
+      t.integer :feeling
+      t.integer :food_eaten
+      t.integer :productivity
+      t.integer :notifications
+      t.string :notification_times
       t.timestamps null: false
     end
   end

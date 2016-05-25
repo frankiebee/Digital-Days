@@ -1,8 +1,7 @@
 class User < ActiveRecord::Base
   has_secure_password
 
-  validates :email, uniqueness: true
-
+  validates_uniqueness_of :email
   has_many :day_notes
   has_many :day_data
 

@@ -23,6 +23,7 @@ ActiveRecord::Schema.define(version: 20160524201741) do
     t.string   "food_eaten"
     t.integer  "productivity"
     t.string   "note"
+    t.datetime "test_time"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
   end
@@ -30,17 +31,23 @@ ActiveRecord::Schema.define(version: 20160524201741) do
   create_table "day_notes", force: :cascade do |t|
     t.integer  "user_id"
     t.string   "entry"
+    t.datetime "test_time"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "users", force: :cascade do |t|
     t.string   "name"
-    t.string   "email",           null: false
-    t.string   "password_digest", null: false
-    t.string   "preferences"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.string   "email",              null: false
+    t.string   "password_digest",    null: false
+    t.integer  "weather"
+    t.integer  "feeling"
+    t.integer  "food_eaten"
+    t.integer  "productivity"
+    t.integer  "notifications"
+    t.string   "notification_times"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
   end
 
 end
