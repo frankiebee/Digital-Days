@@ -7,3 +7,7 @@
     font-family: Lato;
     font-size: 13px;
 }
+
+.axis-year path {
+  stroke:  #fff;
+}

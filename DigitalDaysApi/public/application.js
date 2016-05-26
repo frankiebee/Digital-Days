@@ -6,6 +6,7 @@ function d3Test() {
   var Chart = (function(window,d3){
 
     var svg, chartWrapper, lineGen, lineGen2, lineGen3, line1, line2, line3, data, data2, data3, xScale, yScale, yScale2, xAxis, yAxis, yAxis2, margin = {}, width, height, axis1, axis2, axis3
+    var breakPoint = 768;
 
     init()
 
@@ -89,11 +90,14 @@ function d3Test() {
 
       xAxis = d3.svg.axis()
         .orient("bottom")
-        .tickFormat(d3.format("d"));
+        .tickFormat(d3.format("d"))
+        .outerTickSize(0)
       yAxis = d3.svg.axis()
-        .orient("left");
+        .orient("left")
+        .outerTickSize(0);
       yAxis2 = d3.svg.axis()
-        .orient("right");
+        .orient("right")
+        .outerTickSize(0);
 
       lineGen = d3.svg.line()
         .x(function(d) {
@@ -146,7 +150,7 @@ function d3Test() {
         .attr('fill', 'none');
 
       axis1 = chartWrapper.append("svg:g")
-        .attr("class", "axis")
+        .attr("class", "axis axis-year")
 
 
       axis2 = chartWrapper.append("svg:g")
@@ -186,8 +190,8 @@ function d3Test() {
       chartWrapper.attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
       xAxis.scale(xScale)
-      yAxis.scale(yScale)
-      yAxis2.scale(yScale2)
+      yAxis.scale(yScale).orient(window.innerWidth < breakPoint ? 'right' : 'left');
+      yAxis2.scale(yScale2).orient(window.innerWidth < breakPoint ? 'left' : 'right');
 
       axis1.attr("transform", "translate(0," + (height - margin.bottom) + ")")
         .call(xAxis);
@@ -206,6 +210,7 @@ function d3Test() {
       productivityText.attr("transform", "translate(" + (margin.left/3) + "," + (height/2) + ")rotate(-90)")
       tempText.attr("transform", "translate(" + (width - margin.right/3) + "," + (height/2) + ")rotate(90)")
 
+
     }
 
     function updateDimensions(winWidth) {
@@ -217,7 +222,10 @@ function d3Test() {
       }
 
       width = winWidth - margin.left - margin.right;
-      height = .7 * width;
+      height = .5 * width;
+
+      margin.right = winWidth < breakPoint ? 10 : 50;
+      margin.left = winWidth < breakPoint ? 10 : 50;
     }
 
     return {
