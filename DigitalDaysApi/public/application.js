@@ -89,8 +89,9 @@ function d3Test() {
 
       xAxis = d3.svg.axis()
         .orient("bottom")
+        .tickFormat(d3.format("d"));
       yAxis = d3.svg.axis()
-        .orient("left")
+        .orient("left");
       yAxis2 = d3.svg.axis()
         .orient("right");
 
@@ -124,7 +125,7 @@ function d3Test() {
 
 
       svg = d3.select(".d3-test").append("svg")
-      chartWrapper = svg.append('g')
+      chartWrapper = svg.append('g').attr("class","identifier")
 
       line1 = chartWrapper.append('svg:path')
         .attr('d', lineGen(data))
@@ -154,6 +155,18 @@ function d3Test() {
 
       axis3 = chartWrapper.append("svg:g")
         .attr("class", "axis")
+
+      tempText = chartWrapper.append("text")
+        .attr("text-anchor", "middle")
+        .text("Temperature")
+
+      yearText = chartWrapper.append("text")
+        .attr("text-anchor", "middle")
+        .text("Year")
+
+      productivityText = chartWrapper.append("text")
+        .attr("text-anchor", "middle")
+        .text("Productivity/Feeling")
 
 
       render();
@@ -189,13 +202,17 @@ function d3Test() {
       line2.attr('d', lineGen2(data2))
       line3.attr('d', lineGen3(data3))
 
+      yearText.attr("transform", "translate(" + (width/2) +","+(height + margin.bottom*3/4)+")")
+      productivityText.attr("transform", "translate(" + (margin.left/3) + "," + (height/2) + ")rotate(-90)")
+      tempText.attr("transform", "translate(" + (width - margin.right/3) + "," + (height/2) + ")rotate(90)")
+
     }
 
     function updateDimensions(winWidth) {
       margin = {
         top: 20,
         right: 50,
-        bottom: 50,
+        bottom: 20,
         left: 50
       }
 
