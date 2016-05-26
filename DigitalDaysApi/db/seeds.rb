@@ -49,11 +49,11 @@ user = 1
 month = Time.now.month
 day = 1
 year = Time.now.year - 1
-Time.new(Time.now.year-1,Time.now.month,Time.now.day).upto(Time.now)
+until month == Time.now.month && year == Time.now.year && day == Time.now.day + 1
   puts "#{month == Time.now.month}  #{year == Time.now.year} #{day == Time.now.day + 1}"
   puts "#{year}/#{month}/#{day}"
   begin
-     t = Time.new(year, month, day)
+     t = Time.local(year, month, day)
   rescue
     month += 1
     day = 1
@@ -65,21 +65,31 @@ Time.new(Time.now.year-1,Time.now.month,Time.now.day).upto(Time.now)
 
     updates.times do
      weather = rand(65..75)
-      DayDatum.create({
+     puts "User : #{user}"
+     puts "time of day : #{time_of_day}"
+     puts "time time object : #{Time.local(year, month, day, time_of_day)}"
+      daything = DayDatum.create({
         user_id: user,
         weather: "#{weather}˚",
         feeling: rand(-5..5),
         food_eaten: "food",
         productivity: rand(-5..5),
         note: "I am a note :)",
-        test_time: Time.new(2016, month, day, time_of_day)
+        test_time: Time.local(year, month, day, time_of_day)
       })
       time_of_day += 1
+      puts "OBJECT : #{daything.test_time}"
     end
 
-    DayNote.create(user_id: user, test_time: t, entry: "Today was lovely")
-    user += 1
+    DayNote.create(user_id: user, test_time: Time.new(year, month, day, time_of_day), entry: "Today was lovely")
+    if user < 3
+      user += 1
+    else
+      user = 1
+    end
+    time_of_day = 10
   end
+
   day += 1
   if month == 12 && day == 32
     year += 1
