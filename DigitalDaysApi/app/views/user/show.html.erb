@@ -1,0 +1,9 @@
+<%= @user.name %>
+<h1><%= @daydata.count %></h1>
+<ul>
+  <% @daydata.each do |daydata|%>
+    <li>
+      <%=daydata.feeling%>   <%=daydata.test_time%>
+    </li>
+  <%end%>
+</ul>
