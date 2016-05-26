@@ -9,5 +9,17 @@
 }
 
 .axis-year path {
-  stroke:  #fff;
+  stroke:  #000;
+}
+
+.axis-year line {
+  stroke: lightgrey;
+}
+
+.grid .tick {
+    stroke: lightgrey;
+    opacity: 0.7;
+}
+.grid path {
+      stroke-width: 0;
 }

@@ -129,7 +129,8 @@ function d3Test() {
 
 
       svg = d3.select(".d3-test").append("svg")
-      chartWrapper = svg.append('g').attr("class","identifier")
+      chartWrapper = svg.append('g')
+        .attr("class","identifier")
 
       line1 = chartWrapper.append('svg:path')
         .attr('d', lineGen(data))
@@ -184,31 +185,31 @@ function d3Test() {
       yScale.range([height - margin.top, margin.bottom])
       yScale2.range([height - margin.top, margin.bottom])
 
-      svg.attr("height", height + margin.top + margin.bottom)
+      svg.transition().attr("height", height + margin.top + margin.bottom)
       .attr("width", width + margin.left + margin.right);
 
-      chartWrapper.attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+      chartWrapper.transition().attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
-      xAxis.scale(xScale)
+      xAxis.scale(xScale).tickPadding(10).innerTickSize(-height + margin.top*2)
       yAxis.scale(yScale).orient(window.innerWidth < breakPoint ? 'right' : 'left');
       yAxis2.scale(yScale2).orient(window.innerWidth < breakPoint ? 'left' : 'right');
 
-      axis1.attr("transform", "translate(0," + (height - margin.bottom) + ")")
+      axis1.transition().attr("transform", "translate(0," + (height - margin.bottom) + ")")
         .call(xAxis);
 
-      axis2.attr("transform", "translate(" + (margin.left) + "," + 0  +  ")")
+      axis2.transition().attr("transform", "translate(" + (margin.left) + "," + 0  +  ")")
         .call(yAxis);
 
-      axis3.attr("transform", "translate(" + (width - margin.right) + ","+ 0 +")")
+      axis3.transition().attr("transform", "translate(" + (width - margin.right) + ","+ 0 +")")
         .call(yAxis2);
 
-      line1.attr('d', lineGen(data))
-      line2.attr('d', lineGen2(data2))
-      line3.attr('d', lineGen3(data3))
+      line1.transition().attr('d', lineGen(data))
+      line2.transition().attr('d', lineGen2(data2))
+      line3.transition().attr('d', lineGen3(data3))
 
-      yearText.attr("transform", "translate(" + (width/2) +","+(height + margin.bottom*3/4)+")")
-      productivityText.attr("transform", "translate(" + (margin.left/3) + "," + (height/2) + ")rotate(-90)")
-      tempText.attr("transform", "translate(" + (width - margin.right/3) + "," + (height/2) + ")rotate(90)")
+      yearText.transition().attr("transform", "translate(" + (width/2) +","+(height + margin.bottom)+")")
+      productivityText.transition().attr("transform", "translate(" + (margin.left/3) + "," + (height/2) + ")rotate(-90)")
+      tempText.transition().attr("transform", "translate(" + (width - margin.right/3) + "," + (height/2) + ")rotate(90)")
 
 
     }
