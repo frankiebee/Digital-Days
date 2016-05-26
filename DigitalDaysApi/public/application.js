@@ -1,130 +1,100 @@
 $(document).ready(function() {
-  jQueryTest();
   d3Test();
 })
 
-function jQueryTest() {
-  $(".jquery-test").html("jQuery Works!")
-}
-
-
-
 function d3Test() {
-  var data = [{
-      "feeling": "5",
-      "year": "2000"
-  }, {
-      "feeling": "2",
-      "year": "2001"
-  }, {
-      "feeling": "-3",
-      "year": "2002"
-  }, {
-      "feeling": "0",
-      "year": "2003"
-  }, {
-      "feeling": "1",
-      "year": "2003"
-  }, {
-      "feeling": "4",
-      "year": "2010"
-  }];
+  var Chart = (function(window,d3){
 
-  var data2 = [{
-      "productivity": "0",
-      "year": "2000"
-  }, {
-      "productivity": "1",
-      "year": "2001"
-  }, {
-      "productivity": "-2",
-      "year": "2002"
-  }, {
-      "productivity": "2",
-      "year": "2003"
-  }, {
-      "productivity": "-4",
-      "year": "2003"
-  }, {
-      "productivity": "4",
-      "year": "2010"
-  }];
+    var svg, chartWrapper, lineGen, lineGen2, lineGen3, line1, line2, line3, data, data2, data3, xScale, yScale, yScale2, xAxis, yAxis, yAxis2, margin = {}, width, height, axis1, axis2, axis3
 
-  var data3 = [{
-      "temperature": "0",
-      "year": "2000"
-  }, {
-      "temperature": "10",
-      "year": "2001"
-  }, {
-      "temperature": "25",
-      "year": "2002"
-  }, {
-      "temperature": "40",
-      "year": "2003"
-  }, {
-      "temperature": "75",
-      "year": "2003"
-  }, {
-      "temperature": "110",
-      "year": "2010"
-  }];
+    init()
+
+    function init() {
+      updateDimensions(window.innerWidth);
 
 
-  d3.select(".d3-test").append("p").html("d3 Works!")
-  var svg = d3.select(".d3-test").append("svg"),
-      WIDTH = 1000,
-      HEIGHT = 500,
-      MARGINS = {
-        top: 20,
-        right: 50,
-        bottom: 20,
-        left: 50
-      }
+      data = [{
+          "feeling": "5",
+          "year": "2000"
+      }, {
+          "feeling": "2",
+          "year": "2001"
+      }, {
+          "feeling": "-3",
+          "year": "2002"
+      }, {
+          "feeling": "0",
+          "year": "2003"
+      }, {
+          "feeling": "1",
+          "year": "2003"
+      }, {
+          "feeling": "4",
+          "year": "2010"
+      }];
+
+      data2 = [{
+          "productivity": "0",
+          "year": "2000"
+      }, {
+          "productivity": "1",
+          "year": "2001"
+      }, {
+          "productivity": "-2",
+          "year": "2002"
+      }, {
+          "productivity": "2",
+          "year": "2003"
+      }, {
+          "productivity": "-4",
+          "year": "2003"
+      }, {
+          "productivity": "4",
+          "year": "2010"
+      }];
+
+      data3 = [{
+          "temperature": "0",
+          "year": "2000"
+      }, {
+          "temperature": "10",
+          "year": "2001"
+      }, {
+          "temperature": "25",
+          "year": "2002"
+      }, {
+          "temperature": "40",
+          "year": "2003"
+      }, {
+          "temperature": "75",
+          "year": "2003"
+      }, {
+          "temperature": "110",
+          "year": "2010"
+      }];
 
       // Change this to reflect the actual data!
-      var xScale =  d3.scale.linear()
-      .range([MARGINS.left, WIDTH - MARGINS.right])
+      xScale =  d3.scale.linear()
+      // .range([margin.left, width - margin.right])
       .domain([2000,2010])
 
       // Change this to reflect the actual data
-      var yScale = d3.scale.linear()
-      .range([HEIGHT - MARGINS.top, MARGINS.bottom])
+      yScale = d3.scale.linear()
+      // .range([height - margin.top, margin.bottom])
       .domain([-5,5])
 
-      var yScale2 = d3.scale.linear()
-        .range([HEIGHT - MARGINS.top, MARGINS.bottom])
+      yScale2 = d3.scale.linear()
+        // .range([height - margin.top, margin.bottom])
         .domain([-20,110])
 
-      var xAxis = d3.svg.axis().scale(xScale),
-          yAxis = d3.svg.axis()
-            .scale(yScale)
-            .orient("left");
-
-      var yAxis2 = d3.svg.axis()
-        .scale(yScale2)
+      xAxis = d3.svg.axis()
+        .orient("bottom")
+      yAxis = d3.svg.axis()
+        .orient("left")
+      yAxis2 = d3.svg.axis()
         .orient("right");
 
-      svg.attr("height", HEIGHT)
-      .attr("width", WIDTH);
-
-
-      svg.append("svg:g")
-        .attr("class", "axis")
-        .attr("transform", "translate(0," + (HEIGHT - MARGINS.bottom) + ")")
-        .call(xAxis);
-
-      svg.append("svg:g")
-        .attr("class", "axis")
-        .attr("transform", "translate(" + (MARGINS.left) + ",0)")
-        .call(yAxis);
-
-      svg.append("svg:g")
-        .attr("class", "axis")
-        .attr("transform", "translate(" + (WIDTH - MARGINS.right) + ",0)")
-        .call(yAxis2);
-
-      var lineGen = d3.svg.line()
+      lineGen = d3.svg.line()
         .x(function(d) {
           return xScale(d.year);
         })
@@ -133,13 +103,7 @@ function d3Test() {
         })
         .interpolate("basis")
 
-      var line1 = svg.append('svg:path')
-        .attr('d', lineGen(data))
-        .attr('stroke', 'green')
-        .attr('stroke-width', 2)
-        .attr('fill', 'none');
-
-      var lineGen2 = d3.svg.line()
+      lineGen2 = d3.svg.line()
         .x(function(d) {
           return xScale(d.year);
         })
@@ -148,13 +112,7 @@ function d3Test() {
         })
         .interpolate("basis")
 
-      var line2 = svg.append('svg:path')
-        .attr('d', lineGen2(data2))
-        .attr('stroke', 'red')
-        .attr('stroke-width', 2)
-        .attr('fill', 'none');
-
-      var lineGen3 = d3.svg.line()
+      lineGen3 = d3.svg.line()
         .x(function(d) {
           return xScale(d.year);
         })
@@ -163,9 +121,93 @@ function d3Test() {
         })
         .interpolate("basis")
 
-      var line3 = svg.append('svg:path')
+
+
+      svg = d3.select(".d3-test").append("svg")
+      chartWrapper = svg.append('g')
+
+      line1 = chartWrapper.append('svg:path')
+        .attr('d', lineGen(data))
+        .attr('stroke', 'green')
+        .attr('stroke-width', 2)
+        .attr('fill', 'none');
+
+      line2 = chartWrapper.append('svg:path')
+        .attr('d', lineGen2(data2))
+        .attr('stroke', 'red')
+        .attr('stroke-width', 2)
+        .attr('fill', 'none');
+
+      line3 = chartWrapper.append('svg:path')
         .attr('d', lineGen3(data3))
         .attr('stroke', 'blue')
         .attr('stroke-width', 4)
         .attr('fill', 'none');
+
+      axis1 = chartWrapper.append("svg:g")
+        .attr("class", "axis")
+
+
+      axis2 = chartWrapper.append("svg:g")
+        .attr("class", "axis")
+
+
+      axis3 = chartWrapper.append("svg:g")
+        .attr("class", "axis")
+
+
+      render();
+    }
+
+    function render() {
+
+      updateDimensions(window.innerWidth);
+
+      xScale.range([margin.left, width - margin.right])
+      yScale.range([height - margin.top, margin.bottom])
+      yScale2.range([height - margin.top, margin.bottom])
+
+      svg.attr("height", height + margin.top + margin.bottom)
+      .attr("width", width + margin.left + margin.right);
+
+      chartWrapper.attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+
+      xAxis.scale(xScale)
+      yAxis.scale(yScale)
+      yAxis2.scale(yScale2)
+
+      axis1.attr("transform", "translate(0," + (height - margin.bottom) + ")")
+        .call(xAxis);
+
+      axis2.attr("transform", "translate(" + (margin.left) + "," + 0  +  ")")
+        .call(yAxis);
+
+      axis3.attr("transform", "translate(" + (width - margin.right) + ","+ 0 +")")
+        .call(yAxis2);
+
+      line1.attr('d', lineGen(data))
+      line2.attr('d', lineGen2(data2))
+      line3.attr('d', lineGen3(data3))
+
+    }
+
+    function updateDimensions(winWidth) {
+      margin = {
+        top: 20,
+        right: 50,
+        bottom: 50,
+        left: 50
+      }
+
+      width = winWidth - margin.left - margin.right;
+      height = .7 * width;
+    }
+
+    return {
+      render : render
+    }
+
+  })(window,d3)
+
+  window.addEventListener('resize', Chart.render);
 }
