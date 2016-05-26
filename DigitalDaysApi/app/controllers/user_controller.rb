@@ -25,10 +25,6 @@ class UserController < ApplicationController
     @daynote = @user.day_notes
   end
 
-  def graphform
-
-  end
-
   def createDayDatum
 
   end
