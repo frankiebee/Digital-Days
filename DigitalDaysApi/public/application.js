@@ -5,7 +5,7 @@ $(document).ready(function() {
 function d3Test() {
   var Chart = (function(window,d3){
 
-    var svg, chartWrapper, lineGen, lineGen2, lineGen3, line1, line2, line3, data, data2, data3, xScale, yScale, yScale2, xAxis, yAxis, yAxis2, margin = {}, width, height, axis1, axis2, axis3
+    var focus, svg, chartWrapper, lineGen, lineGen2, lineGen3, line1, line2, line3, data, data2, data3, xScale, yScale, yScale2, xAxis, yAxis, yAxis2, margin = {}, width, height, axis1, axis2, axis3
     var breakPoint = 768;
 
     init()
@@ -13,7 +13,13 @@ function d3Test() {
     function init() {
       updateDimensions(window.innerWidth);
 
+      $.ajax({url: "/api/v1/users/2/day_data",
+              success: initSuccess,
+              error: function(result) { console.log("err") }})
 
+      function initSuccess(data) {
+        console.log(data)
+      }
       data = [{
           "feeling": "5",
           "year": "2000"
@@ -173,6 +179,35 @@ function d3Test() {
         .attr("text-anchor", "middle")
         .text("Productivity/Feeling")
 
+      // focus = chartWrapper.append('g')
+      //     .attr("class", "focus")
+      //     .style("display", "none")
+      //
+      // focus.append("circle")
+      //   .attr('r', 4.5);
+      //
+      // focus.append("text")
+      //   .attr("class","info-text")
+      //   .attr("x", 9)
+      //   .attr("dy", ".35em");
+      //
+      //
+      //
+      // chartWrapper.on("mouseover", function() { focus.style("display", null); })
+      // chartWrapper.on("mouseout", function() { focus.style("display", "none");})
+      // chartWrapper.on("mousemove", mousemove);
+      //
+      // function mousemove() {
+      //   var x0 = xScale.invert(d3.mouse(this)[0]),
+      //       bisect = d3.bisector(function(d) { return d.year; }).left,
+      //       i = bisect(data, x0, 1),
+      //       d0 = data[i - 1],
+      //       d1 = data[i],
+      //       d = x0 - d0.year > d1.year - x0 ? d1 : d0;
+      //   focus.attr("transform", "translate(" + xScale(d.year) + "," + yScale(d.feeling) + ")");
+      //   focus.select(".info-text").text(d.feeling);
+      //
+      // }
 
       render();
     }
@@ -210,7 +245,6 @@ function d3Test() {
       yearText.transition().attr("transform", "translate(" + (width/2) +","+(height + margin.bottom)+")")
       productivityText.transition().attr("transform", "translate(" + (margin.left/3) + "," + (height/2) + ")rotate(-90)")
       tempText.transition().attr("transform", "translate(" + (width - margin.right/3) + "," + (height/2) + ")rotate(90)")
-
 
     }
 

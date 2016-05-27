@@ -23,3 +23,8 @@
 .grid path {
       stroke-width: 0;
 }
+
+.focus circle {
+  fill: none;
+  stroke: steelblue;
+}

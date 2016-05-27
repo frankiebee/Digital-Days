@@ -29,6 +29,12 @@ class UserController < ApplicationController
 
   end
 
+  def day_data
+    @user =  User.find(params[:id])
+    render json: @user.day_data
+
+  end
+
   def createDayDatum
 
   end
