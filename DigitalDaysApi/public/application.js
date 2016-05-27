@@ -5,7 +5,7 @@ $(document).ready(function() {
 function d3Test() {
   var Chart = (function(window,d3){
 
-    var svg, chartWrapper, lineGen, lineGen2, lineGen3, line1, line2, line3, data, data2, data3, xScale, yScale, yScale2, xAxis, yAxis, yAxis2, margin = {}, width, height, axis1, axis2, axis3
+    var focus, svg, chartWrapper, lineGen, lineGen2, lineGen3, line1, line2, line3, data, data2, data3, xScale, yScale, yScale2, xAxis, yAxis, yAxis2, margin = {}, width, height, axis1, axis2, axis3
     var breakPoint = 768;
 
     init()
@@ -13,7 +13,13 @@ function d3Test() {
     function init() {
       updateDimensions(window.innerWidth);
 
+      $.ajax({url: "/api/v1/users/2/day_data",
+              success: initSuccess,
+              error: function(result) { console.log("err") }})
 
+      function initSuccess(data) {
+        console.log(data)
+      }
       data = [{
           "feeling": "5",
           "year": "2000"
@@ -129,7 +135,8 @@ function d3Test() {
 
 
       svg = d3.select(".d3-test").append("svg")
-      chartWrapper = svg.append('g').attr("class","identifier")
+      chartWrapper = svg.append('g')
+        .attr("class","identifier")
 
       line1 = chartWrapper.append('svg:path')
         .attr('d', lineGen(data))
@@ -172,6 +179,35 @@ function d3Test() {
         .attr("text-anchor", "middle")
         .text("Productivity/Feeling")
 
+      // focus = chartWrapper.append('g')
+      //     .attr("class", "focus")
+      //     .style("display", "none")
+      //
+      // focus.append("circle")
+      //   .attr('r', 4.5);
+      //
+      // focus.append("text")
+      //   .attr("class","info-text")
+      //   .attr("x", 9)
+      //   .attr("dy", ".35em");
+      //
+      //
+      //
+      // chartWrapper.on("mouseover", function() { focus.style("display", null); })
+      // chartWrapper.on("mouseout", function() { focus.style("display", "none");})
+      // chartWrapper.on("mousemove", mousemove);
+      //
+      // function mousemove() {
+      //   var x0 = xScale.invert(d3.mouse(this)[0]),
+      //       bisect = d3.bisector(function(d) { return d.year; }).left,
+      //       i = bisect(data, x0, 1),
+      //       d0 = data[i - 1],
+      //       d1 = data[i],
+      //       d = x0 - d0.year > d1.year - x0 ? d1 : d0;
+      //   focus.attr("transform", "translate(" + xScale(d.year) + "," + yScale(d.feeling) + ")");
+      //   focus.select(".info-text").text(d.feeling);
+      //
+      // }
 
       render();
     }
@@ -184,32 +220,31 @@ function d3Test() {
       yScale.range([height - margin.top, margin.bottom])
       yScale2.range([height - margin.top, margin.bottom])
 
-      svg.attr("height", height + margin.top + margin.bottom)
+      svg.transition().attr("height", height + margin.top + margin.bottom)
       .attr("width", width + margin.left + margin.right);
 
-      chartWrapper.attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+      chartWrapper.transition().attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
-      xAxis.scale(xScale)
+      xAxis.scale(xScale).tickPadding(10).innerTickSize(-height + margin.top*2)
       yAxis.scale(yScale).orient(window.innerWidth < breakPoint ? 'right' : 'left');
       yAxis2.scale(yScale2).orient(window.innerWidth < breakPoint ? 'left' : 'right');
 
-      axis1.attr("transform", "translate(0," + (height - margin.bottom) + ")")
+      axis1.transition().attr("transform", "translate(0," + (height - margin.bottom) + ")")
         .call(xAxis);
 
-      axis2.attr("transform", "translate(" + (margin.left) + "," + 0  +  ")")
+      axis2.transition().attr("transform", "translate(" + (margin.left) + "," + 0  +  ")")
         .call(yAxis);
 
-      axis3.attr("transform", "translate(" + (width - margin.right) + ","+ 0 +")")
+      axis3.transition().attr("transform", "translate(" + (width - margin.right) + ","+ 0 +")")
         .call(yAxis2);
 
-      line1.attr('d', lineGen(data))
-      line2.attr('d', lineGen2(data2))
-      line3.attr('d', lineGen3(data3))
+      line1.transition().attr('d', lineGen(data))
+      line2.transition().attr('d', lineGen2(data2))
+      line3.transition().attr('d', lineGen3(data3))
 
-      yearText.attr("transform", "translate(" + (width/2) +","+(height + margin.bottom*3/4)+")")
-      productivityText.attr("transform", "translate(" + (margin.left/3) + "," + (height/2) + ")rotate(-90)")
-      tempText.attr("transform", "translate(" + (width - margin.right/3) + "," + (height/2) + ")rotate(90)")
-
+      yearText.transition().attr("transform", "translate(" + (width/2) +","+(height + margin.bottom)+")")
+      productivityText.transition().attr("transform", "translate(" + (margin.left/3) + "," + (height/2) + ")rotate(-90)")
+      tempText.transition().attr("transform", "translate(" + (width - margin.right/3) + "," + (height/2) + ")rotate(90)")
 
     }
 
