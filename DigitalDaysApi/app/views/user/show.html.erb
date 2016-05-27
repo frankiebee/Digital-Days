@@ -1,9 +1,11 @@
 <%= @user.name %>
+<a href="/user/<%=@user.id%>/form">new data marker</a>
 <h1><%= @daydata.count %></h1>
 <ul>
-  <% @daydata.each do |daydata|%>
+
+  <% @times.each do |t|%>
     <li>
-      <%=daydata.feeling%>   <%=daydata.test_time%>
+      <%=JSON.parse(t)["human_read"]%>
     </li>
   <%end%>
 </ul>

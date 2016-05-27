@@ -1,0 +1,12 @@
+<h1>New data point</h1>
+<form method="post" action="/user/login">
+  <input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
+  <% (-5..5).each do |num|%>
+    <input type="radio" name="scale" value="<%=num%>" ><%=num%>
+  <%end%>
+  <br>
+  <input type="text" name="productivity" placeholder="productivity">
+  <textarea name="note" rows="10" cols="30">
+  </textarea>
+  <input type="submit" name="submit" value="Save">
+</form>
